@@ -20,10 +20,10 @@ export const MovieItem = (props: MovieItemProps) => {
         }} style={{
             display: 'flex',
             flexDirection: 'column',
-            height: '100%'
+            height: '100%',
         }}>
             <MoviePoster
-                poster={movie.poster}
+                movie={movie}
                 style={{
                     width: "100%",
                 }}/>

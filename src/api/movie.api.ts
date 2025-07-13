@@ -1,15 +1,16 @@
 import type {KyInstance} from "ky";
 import type {Movie} from "../models/Movie.ts";
-import {removeEmptyValues} from "../utls";
+import {removeEmptyValues} from "../utils";
 
 export interface MovieFilterParams {
-    page: number;
-    limit: number;
-    genres: string[];
-    minRating: number;
-    maxRating: number;
-    minYear: number;
-    maxYear: number;
+    ids: number[] | undefined
+    page: number
+    limit: number
+    genres: string[]
+    minRating: number
+    maxRating: number
+    minYear: number
+    maxYear: number
 }
 
 export interface MoviesResponse {
@@ -32,14 +33,7 @@ export class MovieService {
     }
 
     async getMovies(filter: MovieFilterParams): Promise<MoviesResponse> {
-        // return {
-        //     docs: Array.from({ length: filter.limit+1 }).map(() => mockMovie),
-        //     total: 9999999999999,
-        //     limit: filter.limit,
-        //     page: filter.page,
-        //     pages: 9999999999999,
-        //
-        // }
+
         return await this.ky.get(`movie`, {
             searchParams: removeEmptyValues({
                 page: filter.page,
@@ -47,6 +41,7 @@ export class MovieService {
                 year: `${filter.minYear}-${filter.maxYear}`,
                 'rating.kp': `${filter.minRating}-${filter.maxRating}`,
                 'genres.name': filter.genres.join(','),
+                'id': filter.ids ? filter.ids.join(','): undefined,
             })
         }).json<MoviesResponse>()
     }

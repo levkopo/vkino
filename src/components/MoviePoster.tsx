@@ -1,14 +1,21 @@
 import type {Movie} from "../models/Movie.ts";
 import {Icon56LogoVk} from "@vkontakte/icons";
 import type {CSSProperties} from "react";
+import {Footnote} from "@vkontakte/vkui";
 
 export interface MoviePosterProps {
-    poster: Movie['poster']
+    movie: Movie,
     style?: CSSProperties
 }
 
 export const MoviePoster = (props: MoviePosterProps) => {
-    const { poster, style } = props
+    const {
+        movie: {
+            poster,
+            ageRating
+        },
+        style
+    } = props
 
     return <div style={{
         aspectRatio: '300 / 450',
@@ -36,5 +43,19 @@ export const MoviePoster = (props: MoviePosterProps) => {
         }} onLoad={(it) => {
             it.currentTarget.style.opacity = '1'
         }}/>
+
+        <Footnote
+            caps
+            style={{
+                position: 'absolute',
+                top: 5,
+                right: 5,
+                padding: "4px 6px",
+                borderRadius: 4,
+                background: 'var(--vkui--color_icon_primary_invariably)',
+            }}
+        >
+            {ageRating}+
+        </Footnote>
     </div>
 }

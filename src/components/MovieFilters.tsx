@@ -15,6 +15,7 @@ import {Icon24Dismiss, Icon24Filter} from "@vkontakte/icons";
 import {useStore} from "../stores/StoreContext.tsx";
 import {useState} from "react";
 import {useSearchParams} from "react-router-dom";
+import {DEFAULT_MAX_RATING, DEFAULT_MAX_YEAR, DEFAULT_MIN_RATING, DEFAULT_MIN_YEAR} from "../stores/MovieStore.ts";
 
 const MODAL_NAME = 'filters';
 
@@ -106,8 +107,8 @@ export const MovieFilters = observer(() => {
                             withTooltip
                             multiple
                             step={1}
-                            min={0}
-                            max={10}
+                            min={DEFAULT_MIN_RATING}
+                            max={DEFAULT_MAX_RATING}
                             defaultValue={[movieStore.minRating, movieStore.maxRating]}
                             onChange={(newValue) => {
                                 setMinRating(newValue[0])
@@ -122,8 +123,8 @@ export const MovieFilters = observer(() => {
                             withTooltip
                             multiple
                             step={1}
-                            min={1990}
-                            max={new Date().getFullYear()}
+                            min={DEFAULT_MIN_YEAR}
+                            max={DEFAULT_MAX_YEAR}
                             defaultValue={[movieStore.minYear, movieStore.maxYear]}
                             onChange={(newValue) => {
                                 setMinYear(newValue[0])

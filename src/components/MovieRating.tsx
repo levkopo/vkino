@@ -1,6 +1,6 @@
 import type {Movie} from "../models/Movie.ts";
 import {Div, Flex, Group, Title} from "@vkontakte/vkui";
-import {getColorByPercentage} from "../utls/getColorByPercentage.ts";
+import {getColorByPercentage} from "../utils";
 
 export interface MovieRatingProps {
     rating: Movie['rating']

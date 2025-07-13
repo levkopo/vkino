@@ -2,6 +2,8 @@ import type {Movie} from "../models/Movie.ts";
 import type {KyInstance} from "ky";
 import {computed, makeAutoObservable, observable, runInAction} from "mobx";
 import {type MovieFilterParams, MovieService} from "../api/movie.api.ts";
+import {areArraysEqualAnyOrder} from "../utils";
+import {MockMovieService} from "../mock.ts";
 
 export const DEFAULT_MIN_RATING = 0
 export const DEFAULT_MAX_RATING = 10
@@ -16,6 +18,7 @@ export class MovieStore {
     movieByIdError: Record<number, string> = {};
 
     movies: Movie[] = [];
+    ids: number[] | undefined = undefined
     currentPage: number = 1;
     pageSize: number = 50;
     isLoadingMovies: boolean = false;
@@ -34,7 +37,7 @@ export class MovieStore {
     private movieService: MovieService;
 
     constructor(ky: KyInstance) {
-        this.movieService = new MovieService(ky);
+        this.movieService = new MockMovieService(ky);
         makeAutoObservable(this);
     }
 
@@ -43,6 +46,7 @@ export class MovieStore {
         return {
             page: this.currentPage,
             limit: this.pageSize,
+            ids: this.ids,
             genres: this.selectedGenres.length > 0 ? this.selectedGenres : [],
             minRating: this.minRating > DEFAULT_MIN_RATING ? this.minRating : DEFAULT_MIN_RATING,
             maxRating: this.maxRating < DEFAULT_MAX_RATING ? this.maxRating : DEFAULT_MAX_RATING,
@@ -73,6 +77,7 @@ export class MovieStore {
         if (this.isLoadingMovies) {
             return;
         }
+
         if (append && !this.hasMoreMovies) {
             return;
         }
@@ -151,6 +156,13 @@ export class MovieStore {
         this.minRating = Math.max(DEFAULT_MIN_RATING, min || DEFAULT_MIN_RATING);
         this.maxRating = Math.min(DEFAULT_MAX_RATING, max || DEFAULT_MAX_RATING);
         this.resetMovieList();
+    }
+
+    setIds(ids?: number[] | undefined) {
+        if(this.ids === ids || areArraysEqualAnyOrder(ids, this.ids)) {
+            this.ids = ids
+            this.resetMovieList();
+        }
     }
 
     setYearRange(min?: number, max?: number) {
