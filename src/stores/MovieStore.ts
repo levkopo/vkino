@@ -2,7 +2,6 @@ import type {Movie} from "../models/Movie.ts";
 import type {KyInstance} from "ky";
 import {computed, makeAutoObservable, observable, runInAction} from "mobx";
 import {type MovieFilterParams, MovieService} from "../api/movie.api.ts";
-import {areArraysEqualAnyOrder} from "../utils";
 import {MockMovieService} from "../mock.ts";
 
 export const DEFAULT_MIN_RATING = 0
@@ -99,7 +98,7 @@ export class MovieStore {
                 this.genres = [
                     ...new Set(
                         response.docs.reduce((prev: string[], next) =>
-                            [...prev, ...next.genres.map(it => it.name)], [])
+                            next.genres ? [...prev, ...next.genres.map(it => it.name)]: prev, [])
                     )
                 ]
                 this.totalMovieResults = response.total;
@@ -149,26 +148,20 @@ export class MovieStore {
 
     setGenreFilter(genres: string[]) {
         this.selectedGenres = genres;
-        this.resetMovieList();
     }
 
     setRatingRange(min?: number, max?: number) {
         this.minRating = Math.max(DEFAULT_MIN_RATING, min || DEFAULT_MIN_RATING);
         this.maxRating = Math.min(DEFAULT_MAX_RATING, max || DEFAULT_MAX_RATING);
-        this.resetMovieList();
     }
 
     setIds(ids?: number[] | undefined) {
-        if(this.ids === ids || areArraysEqualAnyOrder(ids, this.ids)) {
-            this.ids = ids
-            this.resetMovieList();
-        }
+        this.ids = ids
     }
 
     setYearRange(min?: number, max?: number) {
         this.minYear = Math.max(DEFAULT_MIN_YEAR, min || DEFAULT_MIN_YEAR);
         this.maxYear = Math.min(DEFAULT_MAX_YEAR, max || DEFAULT_MAX_YEAR);
-        this.resetMovieList();
     }
 
     resetMovieList() {
@@ -176,7 +169,6 @@ export class MovieStore {
         this.currentPage = 1;
         this.hasMoreMovies = true;
         this.moviesError = null;
-        this.fetchMovies(false);
     }
 
     resetAllFilters() {
@@ -185,7 +177,6 @@ export class MovieStore {
         this.maxRating = DEFAULT_MAX_RATING;
         this.minYear = DEFAULT_MIN_YEAR;
         this.maxYear = DEFAULT_MAX_YEAR;
-        this.resetMovieList();
     }
 
     movieById(movieId: number): Movie | undefined {

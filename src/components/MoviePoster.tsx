@@ -44,7 +44,7 @@ export const MoviePoster = (props: MoviePosterProps) => {
             it.currentTarget.style.opacity = '1'
         }}/>
 
-        <Footnote
+        {ageRating&&<Footnote
             caps
             style={{
                 position: 'absolute',
@@ -56,6 +56,6 @@ export const MoviePoster = (props: MoviePosterProps) => {
             }}
         >
             {ageRating}+
-        </Footnote>
+        </Footnote>}
     </div>
 }

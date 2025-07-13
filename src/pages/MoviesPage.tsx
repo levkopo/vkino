@@ -3,25 +3,17 @@ import {
     Group,
     PanelHeader,
     SplitCol,
-    SplitLayout,
-    usePlatform
 } from "@vkontakte/vkui";
 import {MoviesView} from "../components/MoviesView.tsx";
 
 export const MoviesPage = observer(() => {
-    const platform = usePlatform();
+    return <SplitCol width="100%" maxWidth="1200px" stretchedOnMobile autoSpaced>
+        <PanelHeader>
+            Каталок фильмов
+        </PanelHeader>
 
-    const isVKCOM = platform === 'vkcom';
-
-    return <SplitLayout center header={!isVKCOM && <PanelHeader delimiter="none"/>}>
-        <SplitCol width="100%" maxWidth="1200px" stretchedOnMobile autoSpaced>
-            <PanelHeader>
-                Каталок фильмов
-            </PanelHeader>
-
-            <Group>
-                <MoviesView/>
-            </Group>
-        </SplitCol>
-    </SplitLayout>
+        <Group>
+            <MoviesView/>
+        </Group>
+    </SplitCol>
 })

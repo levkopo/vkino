@@ -5,9 +5,6 @@ import {useEffect, useState} from "react";
 import {MovieFilters} from "./MovieFilters.tsx";
 import {MovieGridList} from "./MovieGridList.tsx";
 import {areArraysEqualAnyOrder} from "../utils";
-import {Button, Placeholder} from "@vkontakte/vkui";
-import {Icon56ErrorOutline} from "@vkontakte/icons";
-
 export interface MoviesViewProps {
     ids?: number[] | undefined
 }
@@ -43,13 +40,19 @@ export const MoviesView = observer((props: MoviesViewProps) => {
             movieStore.setYearRange(newMinYear, newMaxYear);
         }
 
-        if ((movieStore.movies.length === 0 || !areArraysEqualAnyOrder(movieStore.ids, ids)) && !movieStore.isLoadingMovies) {
+        console.log(movieStore.ids, ids)
+        if ((movieStore.movies.length === 0 && !movieStore.isLoadingMovies) || !areArraysEqualAnyOrder(movieStore.ids, ids)) {
+            if(!areArraysEqualAnyOrder(movieStore.ids, ids)) {
+                movieStore.resetAllFilters();
+                movieStore.resetMovieList();
+            }
+
             movieStore.setIds(ids);
-            movieStore.resetAllFilters();
             movieStore.fetchMovies(false);
-            setIsInitialized(true)
         }
 
+
+        setIsInitialized(true)
     }, [ids, searchParams, movieStore]);
 
     return <>

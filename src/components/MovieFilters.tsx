@@ -40,30 +40,33 @@ export const MovieFilters = observer(() => {
         setFiltersModalOpened(false)
     };
 
-    const updateSearchParams = () => {
+    const updateFilters = () => {
         searchParams.set('genres', movieStore.selectedGenres.join(','))
         searchParams.set('minRating', movieStore.minRating.toString())
         searchParams.set('maxRating', movieStore.maxRating.toString())
         searchParams.set('minYear', movieStore.minYear.toString())
         searchParams.set('maxYear', movieStore.maxYear.toString())
         setSearchParams(searchParams)
+
+        movieStore.resetMovieList()
+        movieStore.fetchMovies(false)
     }
 
     const selectGenre = (genre: string) => {
         movieStore.setGenreFilter([...movieStore.selectedGenres, genre])
-        updateSearchParams()
+        updateFilters()
     }
 
     const unselectGenre = (genre: string) => {
         movieStore.setGenreFilter(movieStore.selectedGenres.filter(it => it !== genre))
-        updateSearchParams()
+        updateFilters()
     }
 
     const applyFilters = () => {
         movieStore.setGenreFilter(generes)
         movieStore.setYearRange(minYear, maxYear)
         movieStore.setRatingRange(minRating, maxRating)
-        updateSearchParams()
+        updateFilters()
         closeModal()
     };
 
@@ -87,10 +90,10 @@ export const MovieFilters = observer(() => {
                 }
             >
                 <FormLayoutGroup>
-                    <FormItem htmlFor="color" top="Фильтры">
+                    <FormItem htmlFor="color" top="Жанры">
                         <ChipsInput
                             id="color"
-                            placeholder="Введите фильтры"
+                            placeholder="Введите жанры"
                             allowClearButton
                             defaultValue={movieStore.selectedGenres.map(it => ({
                                 value: it,

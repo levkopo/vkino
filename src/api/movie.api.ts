@@ -1,6 +1,5 @@
 import type {KyInstance} from "ky";
 import type {Movie} from "../models/Movie.ts";
-import {removeEmptyValues} from "../utils";
 
 export interface MovieFilterParams {
     ids: number[] | undefined
@@ -33,16 +32,26 @@ export class MovieService {
     }
 
     async getMovies(filter: MovieFilterParams): Promise<MoviesResponse> {
+        if(filter.ids?.length === 0) {
+            return {
+                docs: [],
+                total: 0,
+                limit: filter.limit,
+                page: filter.page,
+                pages: 1
+            }
+        }
+
+        const params = new URLSearchParams();
+        params.append("page", filter.page.toString())
+        params.append("limit", filter.limit.toString())
+        params.append("year", `${filter.minYear}-${filter.maxYear}`)
+        params.append("rating.kp", `${filter.minRating}-${filter.maxRating}`)
+        filter.genres.map(it => params.append('genres.name', it))
+        filter.ids?.map(it => params.append('id', it.toString()))
 
         return await this.ky.get(`movie`, {
-            searchParams: removeEmptyValues({
-                page: filter.page,
-                limit: filter.limit,
-                year: `${filter.minYear}-${filter.maxYear}`,
-                'rating.kp': `${filter.minRating}-${filter.maxRating}`,
-                'genres.name': filter.genres.join(','),
-                'id': filter.ids ? filter.ids.join(','): undefined,
-            })
+            searchParams: params
         }).json<MoviesResponse>()
     }
 }

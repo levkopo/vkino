@@ -14,6 +14,7 @@ export const MovieItem = (props: MovieItemProps) => {
 
     return <Card style={{
         overflow: 'hidden',
+        height: '100%'
     }}>
         <Tappable onClick={() => {
             navigate(`/movie/${movie.id}`)
