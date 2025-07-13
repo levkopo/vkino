@@ -4,8 +4,6 @@ import {makeAutoObservable, observable, runInAction} from "mobx";
 import {MovieService} from "../api/movie.api.ts";
 
 export class MovieStore {
-    movies: Movie[] = [];
-
     movieCache = observable.map<number, Movie>();
     isLoadingMovieById: number | null = null;
     movieByIdError: Record<number, string> = {};

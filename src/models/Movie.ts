@@ -13,7 +13,7 @@ export type Movie = {
         imdb: number
         tmdb: number
         filmCritics: number
-        russianCritics: number
+        russianFilmCritics: number
         await: number
     }
     ageRating: number
