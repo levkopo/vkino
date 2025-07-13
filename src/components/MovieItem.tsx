@@ -1,13 +1,15 @@
 import type {Movie} from "../models/Movie.ts";
-import {Card, Footnote, Tappable, Text, Title} from "@vkontakte/vkui";
+import {Card, Flex, Footnote, Tappable, Title} from "@vkontakte/vkui";
 import {useNavigate} from "react-router";
+import {Icon16StarAlt} from "@vkontakte/icons";
+import {MoviePoster} from "./MoviePoster.tsx";
 
 export interface MovieItemProps {
     movie: Movie
 }
 
 export const MovieItem = (props: MovieItemProps) => {
-    const { movie } = props
+    const {movie} = props
     const navigate = useNavigate()
 
     return <Card style={{
@@ -15,32 +17,47 @@ export const MovieItem = (props: MovieItemProps) => {
     }}>
         <Tappable onClick={() => {
             navigate(`/movie/${movie.id}`)
+        }} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%'
         }}>
-            <img src={movie.poster.previewUrl} alt={movie.name} style={{
-                objectFit: 'cover',
-                maxWidth: 200
+            <MoviePoster
+                poster={movie.poster}
+                style={{
+                    width: "100%",
+                }}/>
 
-            }}/>
 
             <div style={{
-                marginTop: 6,
+                marginTop: 12,
                 paddingLeft: 12,
                 paddingRight: 12,
                 paddingBottom: 12,
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 1
             }}>
                 <Title
                     level="3"
-                    style={{}}
-                >{movie.name}</Title>
+                    style={{
+                        flex: 1
+                    }}
+                >{movie.name ?? movie.alternativeName}</Title>
+
                 <div
                     style={{
-                        marginTop: 4,
+                        marginTop: 12,
                         display: 'flex',
                         justifyContent: 'space-between'
                     }}
                 >
                     <Footnote caps>{movie.year}</Footnote>
-                    <Footnote>{movie.rating.kp} ⭐</Footnote>
+
+                    <Flex gap="2xs">
+                        <Footnote>{Math.floor(movie.rating.kp * 10) / 10}</Footnote>
+                        <Icon16StarAlt/>
+                    </Flex>
                 </div>
             </div>
         </Tappable>

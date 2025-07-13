@@ -1,55 +1,51 @@
 import {observer} from "mobx-react-lite";
-import {Navigate, useParams} from "react-router";
+import {Navigate, useNavigate, useParams} from "react-router";
 import {useStore} from "../stores/StoreContext.tsx";
 import {useEffect} from "react";
+import {
+    PanelHeader, PanelHeaderBack, SplitCol, SplitLayout, usePlatform,
+} from "@vkontakte/vkui";
+import {MovieRating} from "../components/MovieRating.tsx";
+import {MovieDetails} from "../components/MovieDetails.tsx";
 
 export const MoviePage = observer(() => {
-    const { movieId } = useParams<{ movieId: string }>()
-    const { movieStore } = useStore()
+    const {movieId} = useParams<{ movieId: string }>()
+    const {movieStore} = useStore()
+    const navigate = useNavigate()
+    const platform = usePlatform();
 
     useEffect(() => {
-        if(movieId) {
+        if (movieId) {
             movieStore.fetchMovieById(parseInt(movieId))
         }
     }, [movieId, movieStore]);
 
-    if(!movieId) {
+    if (!movieId) {
         return <Navigate to="/"/>
     }
 
     const movie = movieStore.movieById(parseInt(movieId!))
+    const isVKCOM = platform === 'vkcom';
 
-    return movie && <div>
-        <img src={movie.poster.url} alt={movie.name}/>
-        <h1>{movie.name}</h1>
-        <h4>{movie.year}</h4>
-        <p>{movie.description}</p>
-        <div>
-            {movie.genres.map(it => <div key={`genre-${it.name}`}>{it.name}</div>)}
-        </div>
+    return <SplitLayout center header={!isVKCOM && <PanelHeader delimiter="none" />}>
+        <SplitCol width="100%" maxWidth="720px" stretchedOnMobile autoSpaced>
+            <PanelHeader
+                before={
+                    <PanelHeaderBack
+                        onClick={() => navigate("/")}
+                        label={platform === 'vkcom' ? 'Назад' : undefined}
+                    />
+                }
+            >Фильм</PanelHeader>
 
-        {
-            movie.rating.kp !== 0 && <div>
-                Рейтинг кинопоиска: {movie.rating.kp}
-            </div>
-        }
+            {
+                movie && <>
+                    <MovieDetails movie={movie}/>
+                    <MovieRating rating={movie.rating}/>
+                </>
+            }
+        </SplitCol>
 
-        {
-            movie.rating.imdb !== 0 && <div>
-                Рейтинг Imdb: {movie.rating.imdb}
-            </div>
-        }
-
-        {
-            movie.rating.russianFilmCritics !== 0 && <div>
-                Рейтинг российских критиков: {movie.rating.russianFilmCritics}
-            </div>
-        }
-
-        {
-            movie.rating.filmCritics !== 0 && <div>
-                Рейтинг критиков: {movie.rating.filmCritics}
-            </div>
-        }
-    </div>
+    </SplitLayout>
 })
+

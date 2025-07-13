@@ -4,8 +4,9 @@ export type MovieGenre = {
 
 export type Movie = {
     id: number
-    name: string
-    description: string
+    name: string | null
+    alternativeName: string | null
+    description?: string
     showDescription: string
     year: number
     rating: {
@@ -17,7 +18,7 @@ export type Movie = {
         await: number
     }
     ageRating: number
-    poster: {
+    poster?: {
         url: string,
         previewUrl: string
     },
