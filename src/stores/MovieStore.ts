@@ -1,8 +1,7 @@
-import type {Movie} from "../models/Movie.ts";
+import type {Movie} from "../models";
 import type {KyInstance} from "ky";
 import {computed, makeAutoObservable, observable, runInAction} from "mobx";
-import {type MovieFilterParams, MovieService} from "../api/movie.api.ts";
-import {MockMovieService} from "../mock.ts";
+import {type MovieFilterParams, MovieService} from "../api";
 
 export const DEFAULT_MIN_RATING = 0
 export const DEFAULT_MAX_RATING = 10
@@ -36,7 +35,7 @@ export class MovieStore {
     private movieService: MovieService;
 
     constructor(ky: KyInstance) {
-        this.movieService = new MockMovieService(ky);
+        this.movieService = new MovieService(ky);
         makeAutoObservable(this);
     }
 

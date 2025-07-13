@@ -1,0 +1,31 @@
+.MovieItem {
+    overflow: hidden;
+    height: 100%;
+}
+
+.MovieItem--inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.MovieItem-poster {
+    width: 100%;
+}
+
+.MovieItem--info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.MovieItem--info-title {
+    flex: 1;
+}
+
+.MovieItem--info-subtitle {
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-between;
+}

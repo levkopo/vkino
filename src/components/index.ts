@@ -1,0 +1,7 @@
+export * from "./MovieDetails/MovieDetails.tsx"
+export * from "./MovieFilters/MovieFilters.tsx"
+export * from "./MovieGridList/MovieGridList.tsx"
+export * from "./MovieItem/MovieItem.tsx"
+export * from "./MoviePoster/MoviePoster.tsx"
+export * from "./MovieRating/MovieRating.tsx"
+export * from "./MoviesView/MoviesView.tsx"

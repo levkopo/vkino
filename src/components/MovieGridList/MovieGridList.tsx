@@ -1,7 +1,7 @@
 import {observer} from "mobx-react-lite";
-import {useStore} from "../stores/StoreContext.tsx";
+import {useStore} from "../../stores";
 import {type GridListProps, VirtuosoGrid} from "react-virtuoso";
-import {MovieItem} from "./MovieItem.tsx";
+import {MovieItem} from "../MovieItem/MovieItem.tsx";
 import {Button, Div, PanelSpinner, Placeholder, SimpleGrid} from "@vkontakte/vkui";
 import {forwardRef} from "react";
 import {Icon56ErrorOutline, Icon56SmileOutline} from "@vkontakte/icons";
@@ -18,18 +18,6 @@ export const MovieGridList = observer(() => {
     }
 
     return <Div>
-        {movieStore.moviesError && <Placeholder
-            icon={<Icon56ErrorOutline/>}
-            title="Произошла ошибка загрузки"
-            action={
-                <Button onClick={() => {
-                    movieStore.fetchMovies(false);
-                }}>
-                    Повторить попытку
-                </Button>
-            }
-        />}
-
         {
             movieStore.movies.length !== 0 ? <VirtuosoGrid
                 data={movieStore.movies}
@@ -46,9 +34,7 @@ export const MovieGridList = observer(() => {
                             ref={ref}
                             {...props}
                             minColWidth={175} gap="m"
-                            style={{
-                                ...style,
-                            }}
+                            style={style}
                         >
                             {children}
                         </SimpleGrid>
@@ -56,8 +42,18 @@ export const MovieGridList = observer(() => {
                 }}
                 initialItemCount={50}
                 itemContent={(num, movie) => (
-                    movie && <MovieItem key={movie?.id || `placeholder${num}`} movie={movie}/>
+                    <MovieItem key={movie?.id || `placeholder${num}`} movie={movie}/>
                 )}
+            />: movieStore.moviesError ? <Placeholder
+                icon={<Icon56ErrorOutline/>}
+                title="Произошла ошибка загрузки"
+                action={
+                    <Button onClick={() => {
+                        movieStore.fetchMovies(false);
+                    }}>
+                        Повторить попытку
+                    </Button>
+                }
             />: <Placeholder
                 icon={<Icon56SmileOutline/>}
                 title="Похоже ничего не найдено"

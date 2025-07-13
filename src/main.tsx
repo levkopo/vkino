@@ -2,8 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
-import {StoreContext} from "./stores/StoreContext.tsx";
-import {rootStore} from "./stores/RootStore.ts";
+import {StoreContext, rootStore} from "./stores";
 import {AdaptivityProvider, ConfigProvider} from "@vkontakte/vkui";
 import '@vkontakte/vkui/dist/vkui.css';
 

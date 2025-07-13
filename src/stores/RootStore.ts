@@ -1,5 +1,5 @@
 import { makeAutoObservable } from 'mobx';
-import { createApiClient } from '../api/ky.client';
+import { createApiClient } from '../api';
 import {MovieStore} from "./MovieStore.ts";
 import {MovieFavoriteStore} from "./MovieFavoriteStore.ts";
 

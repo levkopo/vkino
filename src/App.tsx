@@ -1,16 +1,20 @@
 import {Route, Routes, useNavigate} from "react-router";
-import {MoviesPage, MoviePage} from "./pages";
+import {MoviesPage, MoviePage, FavoriteMoviesPage} from "./pages";
 import {
-    AppRoot, Flex,
-    Group, PanelHeader,
+    AppRoot,
+    Flex,
+    Group,
+    PanelHeader,
     SimpleCell,
     SplitCol,
-    SplitLayout, Tabbar, TabbarItem,
+    SplitLayout,
+    Tabbar,
+    TabbarItem,
     useAdaptivityConditionalRender,
     usePlatform
 } from "@vkontakte/vkui";
-import {FavoriteMoviesPage} from "./pages/FavoriteMoviesPage.tsx";
 import {Icon28HomeOutline, Icon28LogoVkColor, Icon28Favorite} from "@vkontakte/icons";
+import "./App.css"
 
 const pages = [
     {
@@ -31,12 +35,10 @@ function App() {
     const isVKCOM = platform === 'vkcom'
     const {viewWidth} = useAdaptivityConditionalRender()
 
-    return (
-        <AppRoot>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-            }}>
+    console.log(viewWidth.tabletMinus)
+    return <AppRoot>
+        <Flex direction="column">
+            <div className="App-content">
                 <SplitLayout center header={!isVKCOM && <PanelHeader delimiter="none"/>}>
                     {viewWidth.tabletPlus &&
                         <SplitCol fixed width={280} maxWidth={280} className={viewWidth.tabletPlus.className}>
@@ -60,21 +62,23 @@ function App() {
                         <Route path="/favorites" element={<FavoriteMoviesPage/>}/>
                         <Route path="/movie/:movieId" element={<MoviePage/>}/>
                     </Routes>
-                </SplitLayout>
 
-                {viewWidth.tabletMinus && <Tabbar className={viewWidth.tabletMinus.className} style={{
-                    zIndex: 1000
-                }}>
-                    {pages.map(it => <TabbarItem
-                        title={it.title}
-                        key={it.path}
-                        aria-label={it.title}
-                        onClick={() => navigate(it.path)}
-                    >{it.icon}</TabbarItem>)}
-                </Tabbar>}
+
+                </SplitLayout>
             </div>
-        </AppRoot>
-    )
+
+            {viewWidth.tabletMinus && <Tabbar className={viewWidth.tabletMinus.className} style={{
+                zIndex: 1000
+            }}>
+                {pages.map(it => <TabbarItem
+                    title={it.title}
+                    key={it.path}
+                    aria-label={it.title}
+                    onClick={() => navigate(it.path)}
+                >{it.icon}</TabbarItem>)}
+            </Tabbar>}
+        </Flex>
+    </AppRoot>
 }
 
 export default App

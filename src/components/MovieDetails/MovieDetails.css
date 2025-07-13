@@ -1,0 +1,23 @@
+.MovieDetails {}
+
+.MovieDetails--header {}
+
+.MovieDetails--header-poster {
+    height: 40vh;
+    border: var(--vkui--size_border--regular) solid var(--vkui--color_image_border_alpha);
+}
+
+.MovieDetails--header-name {
+    margin-top: 24px;
+    max-width: 300px;
+    text-align: center;
+}
+
+.MovieDetails--header-year {
+    margin-top: 6px;
+    max-width: 300px;
+}
+
+.MovieDetails--header-favorite {
+    margin-top: 24px;
+}

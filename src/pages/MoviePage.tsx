@@ -1,12 +1,12 @@
 import {observer} from "mobx-react-lite";
 import {Navigate, useNavigate, useParams} from "react-router";
-import {useStore} from "../stores/StoreContext.tsx";
+import {useStore} from "../stores";
 import {useEffect} from "react";
 import {
+    Group,
     PanelHeader, PanelHeaderBack, SplitCol, usePlatform,
 } from "@vkontakte/vkui";
-import {MovieRating} from "../components/MovieRating.tsx";
-import {MovieDetails} from "../components/MovieDetails.tsx";
+import {MovieRating, MovieDetails} from "../components";
 
 export const MoviePage = observer(() => {
     const {movieId} = useParams<{ movieId: string }>()
@@ -38,8 +38,13 @@ export const MoviePage = observer(() => {
 
         {
             movie && <>
-                <MovieDetails movie={movie}/>
-                <MovieRating rating={movie.rating}/>
+                <Group>
+                    <MovieDetails movie={movie}/>
+                </Group>
+
+                <Group>
+                    <MovieRating rating={movie.rating}/>
+                </Group>
             </>
         }
     </SplitCol>

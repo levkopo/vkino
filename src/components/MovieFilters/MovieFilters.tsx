@@ -12,10 +12,9 @@ import {
     VisuallyHidden
 } from "@vkontakte/vkui";
 import {Icon24Dismiss, Icon24Filter} from "@vkontakte/icons";
-import {useStore} from "../stores/StoreContext.tsx";
+import {useStore, DEFAULT_MAX_RATING, DEFAULT_MAX_YEAR, DEFAULT_MIN_RATING, DEFAULT_MIN_YEAR} from "../../stores";
 import {useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import {DEFAULT_MAX_RATING, DEFAULT_MAX_YEAR, DEFAULT_MIN_RATING, DEFAULT_MIN_YEAR} from "../stores/MovieStore.ts";
 
 const MODAL_NAME = 'filters';
 

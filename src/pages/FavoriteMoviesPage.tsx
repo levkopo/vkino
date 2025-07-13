@@ -4,8 +4,8 @@ import {
     PanelHeader,
     SplitCol,
 } from "@vkontakte/vkui";
-import {MoviesView} from "../components/MoviesView.tsx";
-import {useStore} from "../stores/StoreContext.tsx";
+import {MoviesView} from "../components";
+import {useStore} from "../stores";
 
 export const FavoriteMoviesPage = observer(() => {
     const { movieFavoriteStore } = useStore()

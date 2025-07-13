@@ -1,20 +1,20 @@
-import type {Movie} from "../models/Movie.ts";
+import type {Movie} from "../../models";
 import {
     Button, ButtonGroup,
     Chip,
     Div,
     Flex,
-    Group,
     Header, ModalCard, ModalRoot, Spacing,
     Subhead,
     Text,
     Title
 } from "@vkontakte/vkui";
-import {MoviePoster} from "./MoviePoster.tsx";
+import {MoviePoster} from "../MoviePoster/MoviePoster.tsx";
 import {observer} from "mobx-react-lite";
-import {useStore} from "../stores/StoreContext.tsx";
+import {useStore} from "../../stores";
 import {Icon12Add, Icon12Delete, Icon56AddCircleOutline} from "@vkontakte/icons";
 import {useState} from "react";
+import "./MovieDetails.css"
 
 export interface MovieDetailsProps {
     movie: Movie
@@ -88,32 +88,19 @@ export const MovieDetails = observer((props: MovieDetailsProps) => {
         </ModalRoot>
     )
 
-    return <Group>
-        <Div>
-            <Flex align="center" direction="column">
+    return <>
+        <Div className="MovieDetails">
+            <Flex align="center" direction="column" className="MovieDetails--header">
                 <MoviePoster
                     movie={movie}
-                    style={{
-                        height: "40vh",
-                        border: 'var(--vkui--size_border--regular) solid var(--vkui--color_image_border_alpha)',
-                    }}
+                    className="MovieDetails--header-poster"
                 />
 
-                <Title style={{
-                    marginTop: 24,
-                    maxWidth: 300,
-                    textAlign: 'center'
-                }}>{name}</Title>
-
-                <Subhead style={{
-                    marginTop: 6,
-                    maxWidth: 300,
-                }}>{year}</Subhead>
+                <Title className="MovieDetails--header-name">{name}</Title>
+                <Subhead className="MovieDetails--header-year">{year}</Subhead>
 
                 <Button
-                    style={{
-                        marginTop: 24,
-                    }}
+                    className="MovieDetails--header-favorite"
                     before={isFavorite ? <Icon12Delete/> : <Icon12Add/>}
                     mode={isFavorite ? 'secondary' : 'primary'}
                     onClick={() => {
@@ -134,9 +121,7 @@ export const MovieDetails = observer((props: MovieDetailsProps) => {
         <Header>О фильме</Header>
 
         <Div>
-            <Text style={{
-                marginTop: 0
-            }}>{description}</Text>
+            <Text>{description}</Text>
         </Div>
 
         <Flex margin="auto" gap="m">
@@ -147,5 +132,5 @@ export const MovieDetails = observer((props: MovieDetailsProps) => {
         </Flex>
 
         {modal}
-    </Group>
+    </>
 })

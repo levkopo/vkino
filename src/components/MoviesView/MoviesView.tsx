@@ -1,10 +1,10 @@
 import {observer} from "mobx-react-lite";
-import {useStore} from "../stores/StoreContext.tsx";
+import {useStore} from "../../stores";
 import {useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {MovieFilters} from "./MovieFilters.tsx";
-import {MovieGridList} from "./MovieGridList.tsx";
-import {areArraysEqualAnyOrder} from "../utils";
+import {MovieFilters} from "../MovieFilters/MovieFilters.tsx";
+import {MovieGridList} from "../MovieGridList/MovieGridList.tsx";
+import {areArraysEqualAnyOrder} from "../../utils";
 export interface MoviesViewProps {
     ids?: number[] | undefined
 }

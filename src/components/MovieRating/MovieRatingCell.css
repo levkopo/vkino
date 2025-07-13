@@ -1,0 +1,26 @@
+.MovieRatingCell {
+    
+}
+
+.MovieRatingCell-value {
+    line-height: calc(
+            var(--vkui--font_title1--line_height--compact,
+            var(--vkui--font_title1--line_height--regular)) + 24px
+    )!important;
+}
+
+.MovieRatingCell-value[data-type='high'] {
+    color: var(--vkui--color_text_positive)
+}
+
+.MovieRatingCell-value[data-type='medium'] {
+    color: var(--vkui--color_accent_orange)
+}
+
+.MovieRatingCell-value[data-type='low'] {
+    color: var(--vkui--color_text_negative)
+}
+
+.MovieRatingCell-value[data-type='none'] {
+    opacity: 0.6
+}
